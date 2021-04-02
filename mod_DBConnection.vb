@@ -28,12 +28,68 @@ Module mod_DBConnection
         End Try
 
         'CREATE REQUIRED TABLES
-
+        initTables()
 
     End Sub
 
 
     'DB Functions
+
+
+    Public Sub initTables()
+
+        Dim cmd1 As New SQLiteCommand()
+        Dim cmd2 As New SQLiteCommand()
+        Dim cmd3 As New SQLiteCommand()
+
+        Try
+            con.Open()
+            With cmd1
+                .Connection = con
+                .CommandText = "CREATE TABLE IF NOT EXISTS 'room_account' ('USER_ID' TEXT NOT NULL UNIQUE , 'PASSWORD' TEXT NOT NULL , 'NAME' TEXT NOT NULL DEFAULT 'user' , PRIMARY KEY('USER_ID'));"
+                .Prepare()
+                .ExecuteNonQuery()
+            End With
+            con.Close()
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+        Finally
+            con.Close()
+        End Try
+
+        Try
+            con.Open()
+            With cmd2
+                .Connection = con
+                .CommandText = "CREATE TABLE IF NOT EXISTS 'room_schedules' ('SCHED_ID'	INTEGER NOT NULL , 'ROOM_ID' TEXT NOT NULL, 'FROM' NUMERIC , 'TO' NUMERIC , 'DATE_FROM' TEXT , 'DATE_TO' TEXT , 'BY_USER' TEXT , PRIMARY KEY('SCHED_ID' AUTOINCREMENT));"
+                .Prepare()
+                .ExecuteNonQuery()
+            End With
+            con.Close()
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+        Finally
+            con.Close()
+        End Try
+
+        Try
+            con.Open()
+            With cmd3
+                .Connection = con
+                .CommandText = "CREATE TABLE IF NOT EXISTS 'rooms' ('ROOM_ID' TEXT NOT NULL UNIQUE , 'Location' TEXT , 'Status' TEXT , PRIMARY KEY('ROOM_ID'));"
+                .Prepare()
+                .ExecuteNonQuery()
+            End With
+            con.Close()
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+        Finally
+            con.Close()
+        End Try
+
+    End Sub
+
+
 
     Public Function addRoom(ByVal ROOM_ID As String, ByVal Location As String) As String
         Dim output As String = ""
@@ -136,7 +192,7 @@ Module mod_DBConnection
             End If
         Next
 
-        
+
         Return availableRooms
 
     End Function
