@@ -1,0 +1,93 @@
+﻿
+Room Sched
+
+By: Hanz Aquino
+Program: Bachelor of science in Computer Engineering
+Project started: March 27, 2021
+
+Written in: VB.NET
+Database: SQLite 3
+
+(Documentation of the program is in the frm_Dashboard.vb)
+
+
+==Description==
+
+Room Sched is a database management program that allows a user to manage room
+occupation in a particular establishment. It is primarily designed to be used in
+room renting bussiness such as hotels where the number of rooms is considerably
+many to use manual methods.
+
+This program is not designed for room scheduling that includes weekly schedules
+because it can on store an specific time period.
+
+Its main function is the ability to find any vacant room in a given time period.
+
+
+
+
+
+
+
+==MISC==
+
+Vacant Room finding algorithm
+The Time Period : (2:00-3:00)
+Steps:
+-	Select the first room in databse.
+-	Generate the list of all the ocuupation time period of the selected room.
+-	Sort the list of generated time stamps. Since we cannot add a time period
+	between any other, the sorted time stamps will not change in arrangement:
+	suppose we have:
+		Room1 > 1:00-2:00
+			  > 3:00-4:00
+			  > 4:00-5:30
+	If we add the time stamps in an array and sort it, we get:
+	( 1:00 , 2:00 , 3:00 , 4:00 , 4:00 , 5:30 )
+	For simplification lets assume it is: 
+	TIMEARR = (1 , 2, 3, 4, 4, 5.5)
+-	The given time period is (2:00-3:00) so then (2,3)
+	Let the Given_From be 'f' and Given_To 't'
+-	If the lowest value in TIMEARR is >= t the we include the Room to the 
+	available list. And we move to the next room.
+-	If the highest value in TIMEARR is <= f the we include the Room to the 
+	available list. And we move to the next room.
+-	Else we iterate on every odd index of the TIMEARR
+	(The odd-indexed value in TIMEARR is all the "TO")
+		-If the current iterated time is >= f and the next even-indexed item is
+		 <= t; we include the Room to the available list. And we move to the 
+		 next room.
+
+The Algorithm snippet in VB:
+		Dim availableRooms As New List(Of String)
+        Dim timeStamps As List(Of Long)
+        For Each room In getListOfRooms()
+            timeStamps = getListOfTimeStamps(room)
+            If Not timeStamps.Count <= 0 Then
+                timeStamps.Sort()
+                If timeStamps.Item(timeStamps.Count - 1) <= _FROM Then
+                    availableRooms.Add(room)
+                    Continue For
+                ElseIf timeStamps.Item(0) >= _TO Then
+                    availableRooms.Add(room)
+                    Continue For
+                End If
+
+                For i As Integer = 0 To timeStamps.Count - 1 Step 1
+                    If Not i >= timeStamps.Count - 1 And Not i Mod 2 = 0 Then
+                        If timeStamps.Item(i) <= _FROM And timeStamps.Item(i + 1) >= _TO Then
+                            availableRooms.Add(room)
+                            Continue For
+                        Else
+                            Continue For
+                        End If
+                    End If
+                Next
+
+                timeStamps.Clear()
+
+            Else
+                availableRooms.Add(room)
+            End If
+        Next
+        Return availableRooms

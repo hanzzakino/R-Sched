@@ -156,27 +156,34 @@ Module mod_DBConnection
         Dim availableRooms As New List(Of String)
         Dim timeStamps As List(Of Long)
 
-
-
+        'Iterate on all the rooms
         For Each room In getListOfRooms()
+            'get the list occupation time periods
             timeStamps = getListOfTimeStamps(room)
-            'Console.WriteLine(room)
+
+            'check if there is any time stamp
             If Not timeStamps.Count <= 0 Then
+                'sort the array
                 timeStamps.Sort()
+
+                'check if the macimum time satmp is less than the given time period
                 If timeStamps.Item(timeStamps.Count - 1) <= _FROM Then
-                    'Console.WriteLine(2)
                     availableRooms.Add(room)
                     Continue For
+
+                    'check if the minimum time stamp is greater than the given time period
                 ElseIf timeStamps.Item(0) >= _TO Then
-                    'Console.WriteLine(3)
                     availableRooms.Add(room)
                     Continue For
                 End If
 
+                'iterate on all the "TO" time stamp item
                 For i As Integer = 0 To timeStamps.Count - 1 Step 1
+
                     If Not i >= timeStamps.Count - 1 And Not i Mod 2 = 0 Then
+                        'If the current iterated time is >= f and the next even-indexed item is <= t
                         If timeStamps.Item(i) <= _FROM And timeStamps.Item(i + 1) >= _TO Then
-                            'Console.WriteLine(Str(4) + "--" + Str(i))
+                            'add the room
                             availableRooms.Add(room)
                             Continue For
                         Else

@@ -40,6 +40,8 @@ Public Class frm_Dashboard
     Dim dateNow As Date = Date.Now()
     Dim current_USER As String = ""
 
+    'INITIALIZATIONS
+
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         frm_loadingScreen.Show()
@@ -278,13 +280,17 @@ Public Class frm_Dashboard
     End Sub
 
     Private Sub btn_RemoveSched_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_RemoveSched.Click
+        Dim result_ As New DialogResult
+        result_ = MessageBox.Show("Delete the Schedule?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         LBL_LOADING.Visible = True
         Application.DoEvents()
         Try
-            removeSchedule(Integer.Parse(DataGridView_ROOMS.SelectedCells(0).Value))
-            initRoomsListBox()
-            initRightSidePanel()
-            MessageBox.Show("Schedule Deleted", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If result_ = DialogResult.Yes Then
+                removeSchedule(Integer.Parse(DataGridView_ROOMS.SelectedCells(0).Value))
+                initRoomsListBox()
+                initRightSidePanel()
+                MessageBox.Show("Schedule Deleted", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
 
         Catch ex As Exception
             MessageBox.Show("Please Select Schedule to delete", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Information)

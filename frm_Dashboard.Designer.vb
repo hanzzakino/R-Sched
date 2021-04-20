@@ -160,10 +160,10 @@ Partial Class frm_Dashboard
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(111, Byte), Integer), CType(CType(200, Byte), Integer), CType(CType(172, Byte), Integer))
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Panel_MainMenu)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.Panel_AddSched)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Panel_Rooms)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Panel_AddRoom)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Panel_MainMenu)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Panel_AddSched)
         Me.SplitContainer1.Panel1MinSize = 370
         '
         'SplitContainer1.Panel2
@@ -628,6 +628,7 @@ Partial Class frm_Dashboard
         Me.DataGridView_ROOMS.Location = New System.Drawing.Point(10, 100)
         Me.DataGridView_ROOMS.MaximumSize = New System.Drawing.Size(350, 250)
         Me.DataGridView_ROOMS.MinimumSize = New System.Drawing.Size(350, 250)
+        Me.DataGridView_ROOMS.MultiSelect = False
         Me.DataGridView_ROOMS.Name = "DataGridView_ROOMS"
         Me.DataGridView_ROOMS.ReadOnly = True
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft

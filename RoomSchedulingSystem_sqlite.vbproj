@@ -152,6 +152,7 @@
     <None Include="RoomSchedulingSystem_sqlite_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Description - RoomSched.txt" />
     <Content Include="RS-256X256.ico" />
   </ItemGroup>
   <ItemGroup>
